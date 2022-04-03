@@ -1,7 +1,7 @@
 import React from 'react';
-import {useFormControl} from '../useFormControl';
-import {PersonalDocument} from '~/features/profile/types';
 import {TextField} from '@mui/material';
+import {PersonalDocument} from '~/features/profile/types';
+import {useFormControl} from '../useFormControl';
 
 export interface FormTextFieldProps {
     label: string;

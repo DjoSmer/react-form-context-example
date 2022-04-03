@@ -31,8 +31,7 @@ class FormControlComp extends FormControlComponent<FormControlProps, FormControl
     constructor(props: FormControlProps) {
         super(props);
 
-        this.state = initialForm();
-
+        this.state = props.personalNames ? props.personalNames : initialForm();
         this.setPersonalNames = debounce(props.setPersonalNames, 500);
     }
 
