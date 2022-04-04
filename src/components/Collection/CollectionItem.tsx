@@ -52,7 +52,7 @@ export function CollectionItem<T extends Collection = Collection>(props: Collect
                 <Typography className="item-index" typography="h6" sx={{fontSize: '1.1rem', mr: 1}}>
                     {index + 1}.
                 </Typography>
-                <Typography typography="h6">{label}</Typography>
+                <Typography typography="h6">{label || 'No name'}</Typography>
                 {caption && (
                     <Typography color="primary" typography="subtitle1" sx={{ml: 1}}>
                         ({caption})

@@ -39,10 +39,12 @@ export const CollectionForm: React.FC<CollectionFormProps> = (props) => {
             {children}
             <Divider sx={{my: 2, borderStyle: 'dashed'}} />
             <Actions>
-                <Button color="secondary" onClick={handleCloseClick}>
+                <Button variant="outlined" color="inherit" onClick={handleCloseClick}>
                     Cancel
                 </Button>
-                <Button onClick={handleDoneClick}>Done</Button>
+                <Button variant="contained" onClick={handleDoneClick}>
+                    Done
+                </Button>
             </Actions>
         </>
     );

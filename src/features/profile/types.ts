@@ -14,7 +14,7 @@ export interface PersonalDocument extends Collection {
     dateOfExpiry: string;
 }
 
-export interface Profile {
-    personalNames: PersonalNames;
-    personalDocuments: PersonalDocument[];
+export interface Profile extends Collection {
+    personalNames?: PersonalNames;
+    personalDocuments?: PersonalDocument[];
 }

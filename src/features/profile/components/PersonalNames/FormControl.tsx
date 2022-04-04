@@ -7,7 +7,13 @@ import {createAppSelector} from '~/utils/createAppSelector';
 import {PersonalNames} from '../../types';
 
 export const FormContext = React.createContext<FormControlComp>({} as FormControlComp);
-const mapState = createAppSelector(({profile: {personalNames}}) => ({personalNames}));
+const mapState = createAppSelector(
+    ({
+        profile: {
+            data: {personalNames},
+        },
+    }) => ({personalNames})
+);
 const mapDispatch = {setPersonalNames};
 const connector = connect(mapState, mapDispatch);
 

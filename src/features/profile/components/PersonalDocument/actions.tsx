@@ -4,7 +4,11 @@ import {setPersonalDocuments} from '~/features/profile/profileSlice';
 import {createAppSelector} from '~/utils/createAppSelector';
 
 export const personalDocumentsSelector = createAppSelector(
-    ({profile: {personalDocuments}}) => personalDocuments || []
+    ({
+        profile: {
+            data: {personalDocuments},
+        },
+    }) => personalDocuments || []
 );
 
 export const addPersonalDocument =
@@ -31,21 +35,5 @@ export const removePersonalDocument =
         const personalDocuments = personalDocumentsSelector(getState());
         dispatch(
             setPersonalDocuments(personalDocuments.filter((entity) => entity._id !== target._id))
-        );
-    };
-
-export const reorderPersonalDocument =
-    (current: PersonalDocument, target: PersonalDocument): DispatchThink =>
-    (dispatch, getState) => {
-        const personalDocuments = personalDocumentsSelector(getState());
-
-        dispatch(
-            setPersonalDocuments(
-                personalDocuments.map((entity) => {
-                    if (current._id === entity._id) return target;
-                    if (target._id === entity._id) return current;
-                    return entity;
-                })
-            )
         );
     };

@@ -1,12 +1,7 @@
 import React from 'react';
 import {connect, ConnectedProps} from 'react-redux';
 import {uuid} from '~/utils/uuid';
-import {
-    addPersonalDocument,
-    updatePersonalDocument,
-    removePersonalDocument,
-    reorderPersonalDocument,
-} from './actions';
+import {addPersonalDocument, updatePersonalDocument, removePersonalDocument} from './actions';
 import {PersonalDocument} from '~/features/profile/types';
 import {CollectionControl, FormControlComponent} from '~/components';
 
@@ -15,7 +10,6 @@ const mapDispatch = {
     addPersonalDocument,
     updatePersonalDocument,
     removePersonalDocument,
-    reorderPersonalDocument,
 };
 const connector = connect(null, mapDispatch);
 type ReduxProps = ConnectedProps<typeof connector>;
@@ -78,10 +72,6 @@ class FormControlComp extends FormControlComponent<FormControlProps, FormControl
         this.setState({entity});
         this.editMode = true;
         control.open();
-    };
-
-    handleReorder = (current: PersonalDocument, target: PersonalDocument) => {
-        this.props.reorderPersonalDocument(current, target);
     };
 
     handleRemove = (target: PersonalDocument) => {

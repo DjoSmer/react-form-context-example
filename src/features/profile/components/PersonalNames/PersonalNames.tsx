@@ -10,12 +10,12 @@ export const PersonalNames = () => {
                 <CardHeader title="Your Names" />
                 <CardContent>
                     <Stack direction="row" spacing={2}>
-                        <FormTextField label="First Name" name="firstName" />
+                        <FormTextField required label="First Name" name="firstName" />
                         <FormTextField label="Additional Name" name="additionalName" />
                     </Stack>
 
                     <Stack direction="row" spacing={2} mt={4}>
-                        <FormTextField label="Last Name" name="lastName" />
+                        <FormTextField required label="Last Name" name="lastName" />
                         <FormTextField label="Maiden Name" name="maidenName" />
                     </Stack>
                 </CardContent>
