@@ -7,21 +7,23 @@ import {useFormControl} from './useFormControl';
 
 export interface FormTextFieldProps {
     label: string;
-    name: keyof FormControlState;
-    required?: boolean;
+    name: keyof FormControlState['entity'];
 }
 
 export const FormTextField = (props: FormTextFieldProps) => {
-    const {label, name, required} = props;
+    const {label, name} = props;
     const errorSelector = createAppSelector(
         ({profile: {errors}}) => (errors.personalNames && errors.personalNames[name]) || false
     );
     const error = useAppSelector(errorSelector);
 
     const {
-        control: {createHandleChange},
-        value,
-    } = useFormControl((state) => state[name]);
+        control: {fieldChange},
+        value: {value, required} = {},
+    } = useFormControl(({entity}, {requiredFields}) => ({
+        value: entity[name],
+        required: requiredFields[name],
+    }));
 
     return (
         <TextField
@@ -31,7 +33,7 @@ export const FormTextField = (props: FormTextFieldProps) => {
             name={name}
             label={label}
             value={value}
-            onChange={createHandleChange(name)}
+            onChange={({target: {value}}) => fieldChange(name, value)}
         />
     );
 };

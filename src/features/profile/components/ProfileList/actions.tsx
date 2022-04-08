@@ -12,6 +12,10 @@ const validate: DispatchThink<boolean> = (dispatch, getState) => {
     const profile = profileSelector(getState());
     const errors: ReturnType<typeof errorsSelector> = {};
 
+    /**
+     * простая валидация для показа
+     * обычно ошибки приходят с бэка
+     */
     if (profile.personalNames) {
         if (!profile.personalNames.firstName || !profile.personalNames.lastName) {
             errors.personalNames = {};

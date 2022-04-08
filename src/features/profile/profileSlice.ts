@@ -6,12 +6,19 @@ export interface ProfileState {
     data: Partial<Profile>;
     list: Profile[];
     errors: MakePartialBoolean<Profile>;
+    requiredFields: MakePartialBoolean<Profile>;
 }
 
 const initialState: ProfileState = {
     data: {},
     list: [],
     errors: {},
+    requiredFields: {
+        personalNames: {
+            lastName: true,
+            firstName: true,
+        },
+    },
 };
 
 export const profileSlice = createSlice({

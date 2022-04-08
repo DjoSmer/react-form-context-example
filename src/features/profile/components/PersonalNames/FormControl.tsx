@@ -5,14 +5,17 @@ import {FormControlComponent} from '~/components';
 import {setPersonalNames} from '~/features/profile/profileSlice';
 import {createAppSelector} from '~/utils/createAppSelector';
 import {PersonalNames} from '../../types';
+import {MakePartialBoolean} from '~/app/types';
 
 export const FormContext = React.createContext<FormControlComp>({} as FormControlComp);
 const mapState = createAppSelector(
     ({
         profile: {
             data: {personalNames},
+            requiredFields: {personalNames: requiredFields = {}},
+            errors: {personalNames: errors = {}},
         },
-    }) => ({personalNames})
+    }) => ({personalNames, requiredFields, errors})
 );
 const mapDispatch = {setPersonalNames};
 const connector = connect(mapState, mapDispatch);
@@ -22,7 +25,13 @@ export interface FormControlProps extends ReduxProps {
     children: React.ReactNode;
 }
 
-export interface FormControlState extends PersonalNames {}
+export interface FormControlState {
+    entity: PersonalNames;
+    /**
+     * если у поля есть ошибка,
+     */
+    errors: MakePartialBoolean<PersonalNames>;
+}
 
 const initialForm = (): PersonalNames => ({
     firstName: '',
@@ -37,18 +46,31 @@ class FormControlComp extends FormControlComponent<FormControlProps, FormControl
     constructor(props: FormControlProps) {
         super(props);
 
-        this.state = props.personalNames ? props.personalNames : initialForm();
+        this.state = {
+            entity: props.personalNames ? props.personalNames : initialForm(),
+            errors: {},
+        };
         this.setPersonalNames = debounce(props.setPersonalNames, 500);
     }
 
-    createHandleChange = (name: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.handleFieldChange(name, event.target.value);
-    };
+    componentDidUpdate(
+        prevProps: Readonly<FormControlProps>,
+        prevState: Readonly<FormControlState>,
+        snapshot?: any
+    ) {
+        super.componentDidUpdate(prevProps, prevState, snapshot);
+        const {errors} = this.props;
 
-    handleFieldChange = (name: string, value: string | boolean) => {
-        const names = {...this.state, [name]: value};
-        this.setState({...names});
-        this.setPersonalNames({...names});
+        if (prevProps.errors !== errors) {
+            this.setState({errors});
+        }
+    }
+
+    fieldChange = (name: keyof PersonalNames, value: PersonalNames[keyof PersonalNames]) => {
+        const {entity: prevEntity} = this.state;
+        const entity = {...prevEntity, [name]: value};
+        this.setState({entity});
+        this.setPersonalNames(entity);
     };
 
     render() {
